@@ -1,0 +1,4 @@
+rootProject.name = 'sample-service'
+include 'sample-application'
+include 'sample-mapper'
+

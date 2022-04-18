@@ -1,0 +1,6 @@
+
+
+tasks.register("getProject"){
+    println "version: ${project.getVersion()}"
+    println "name: ${project.getName()}"
+}

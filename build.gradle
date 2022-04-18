@@ -1,0 +1,67 @@
+buildscript {
+    ext {
+        springBootVersion = "2.6.6"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
+}
+
+subprojects {
+    apply plugin : 'java'
+    apply plugin : 'jacoco'
+    apply plugin :'io.spring.dependency-management'
+    group = 'com.example'
+//    version = '0.0.1-SNAPSHOT'
+
+    java {
+        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+    compileTestJava {
+        options.encoding = "UTF-8"
+    }
+
+    test{
+        useJUnitPlatform()
+
+        minHeapSize= '1024m'
+        maxHeapSize= '1024m'
+        jvmArgs '-XX:+TieredCompilation', '-XX:TieredStopAtLevel=1'
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+        }
+    }
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation "org.flywaydb:flyway-core:8.5.8"
+
+        // test
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+}
+
+wrapper {
+    gradleVersion='7.4.1'
+}
+
+tasks.register("getProject"){
+    println "domain: ${project.domain_version}"
+    println "external: ${project.external_version}"
+}
